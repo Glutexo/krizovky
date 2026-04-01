@@ -34,3 +34,8 @@ Model `Tajenka` obsahuje:
 - Spouštěcí příkaz je `poetry run python manage.py runserver`.
 - Migrace se spouští přes `poetry run python manage.py migrate`.
 - Testy se spouští přes `poetry run python manage.py test`.
+
+## Dokumentace
+
+- Přehled projektu je v `docs/project-overview.md`.
+- Uživatelské příběhy jsou v `docs/user-stories.md`.

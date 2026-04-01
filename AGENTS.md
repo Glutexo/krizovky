@@ -12,6 +12,8 @@
 - Vést dokument nebo složku s dokumenty popisujícími aktuální stav projektu podle dosud vytvořeného řešení.
 - Po každé změně, přidání nebo odebrání funkcionality tuto dokumentaci aktualizovat.
 - Projektová dokumentace je vedená ve složce `docs/`, výchozí přehled je v `docs/project-overview.md`.
+- Součástí projektové dokumentace je i seznam uživatelských příběhů v `docs/user-stories.md`.
+- Po každé změně funkcionality aktualizovat i odpovídající uživatelské příběhy.
 
 ## Úpravy
 - Upřednostňovat jednoduchá řešení před předčasnou abstrakcí.
