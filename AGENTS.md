@@ -24,6 +24,8 @@
 - Bez výslovného požadavku nikdy nepřepisovat ani nemažat uživatelské změny.
 - Vyhýbat se destruktivním git příkazům, pokud je uživatel výslovně nepožaduje.
 - Pokud je worktree znečištěný, omezit úpravy na soubory související s úkolem.
+- Commitovat co nejmenší logické změny.
+- Pokud se v projektu udělalo více změn, rozdělit je do samostatných commitů podle tématu.
 - Pro práci s GitHubem je k dispozici příkaz `gh`.
 - Remote `origin` patří veřejnému repozitáři `Glutexo/krizovky`.
 - URL repozitáře je `https://github.com/Glutexo/krizovky`.
