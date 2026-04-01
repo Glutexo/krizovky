@@ -8,6 +8,14 @@
         <h1>{{ tajenka.text }}</h1>
         <p>Detail tajenky.</p>
     </header>
+    <p>
+        <strong>Zdroj:</strong>
+        {% if tajenka.source_url %}
+            <a href="{{ tajenka.source_url }}">{{ tajenka.source_url }}</a>
+        {% else %}
+            Není uveden.
+        {% endif %}
+    </p>
     <footer>
         <a href="{% url 'tajenky:update' tajenka.pk %}" role="button">Upravit</a>
         <a href="{% url 'tajenky:delete' tajenka.pk %}" class="secondary">Smazat</a>

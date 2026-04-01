@@ -18,6 +18,7 @@ Projekt slouží jako jednoduchá webová správa tajenek do křížovek.
 Model `Tajenka` obsahuje:
 
 - text tajenky
+- volitelnou zdrojovou URL
 - datum vytvoření
 - datum poslední úpravy
 

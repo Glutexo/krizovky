@@ -18,14 +18,14 @@ class TajenkaDetailView(DetailView):
 
 class TajenkaCreateView(CreateView):
     model = Tajenka
-    fields = ["text"]
+    fields = ["text", "source_url"]
     template_name = "tajenky/tajenka_form.html"
     success_url = reverse_lazy("tajenky:list")
 
 
 class TajenkaUpdateView(UpdateView):
     model = Tajenka
-    fields = ["text"]
+    fields = ["text", "source_url"]
     template_name = "tajenky/tajenka_form.html"
     success_url = reverse_lazy("tajenky:list")
 
