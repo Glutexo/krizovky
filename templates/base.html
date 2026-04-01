@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Křížovky{% endblock %}</title>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    >
+</head>
+<body>
+<main class="container">
+    <nav>
+        <ul>
+            <li><strong>Křížovky</strong></li>
+        </ul>
+        <ul>
+            <li><a href="{% url 'tajenky:list' %}">Tajenky</a></li>
+            <li><a href="{% url 'tajenky:create' %}" role="button">Nová tajenka</a></li>
+        </ul>
+    </nav>
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

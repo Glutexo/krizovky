@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Tajenky{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Tajenky</h1>
+    <p>Jednoduchá CRUD správa tajenek pro křížovky.</p>
+</header>
+
+{% if tajenky %}
+<table>
+    <thead>
+    <tr>
+        <th>Tajenka</th>
+        <th>Popis</th>
+        <th>Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tajenka in tajenky %}
+    <tr>
+        <td><a href="{% url 'tajenky:detail' tajenka.pk %}">{{ tajenka.text }}</a></td>
+        <td>{{ tajenka.popis|default:"-"|truncatechars:80 }}</td>
+        <td>
+            <a href="{% url 'tajenky:update' tajenka.pk %}">Upravit</a>
+            |
+            <a href="{% url 'tajenky:delete' tajenka.pk %}">Smazat</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<article>
+    <h2>Zatím bez tajenek</h2>
+    <p>První záznam můžeš přidat hned teď.</p>
+    <a href="{% url 'tajenky:create' %}" role="button">Přidat tajenku</a>
+</article>
+{% endif %}
+{% endblock %}

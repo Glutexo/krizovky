@@ -11,12 +11,14 @@
 - Neměnit nesouvisející soubory jen kvůli úklidu pracovního stromu.
 - Vést dokument nebo složku s dokumenty popisujícími aktuální stav projektu podle dosud vytvořeného řešení.
 - Po každé změně, přidání nebo odebrání funkcionality tuto dokumentaci aktualizovat.
+- Projektová dokumentace je vedená ve složce `docs/`, výchozí přehled je v `docs/project-overview.md`.
 
 ## Úpravy
 - Upřednostňovat jednoduchá řešení před předčasnou abstrakcí.
 - Zachovat stávající strukturu projektu a pojmenování, pokud není jasný důvod to měnit.
 - Komentáře psát stručně a jen tam, kde skutečně přidávají hodnotu.
 - Ve výchozím stavu používat ASCII, pokud soubor už sám nevyžaduje Unicode.
+- Všechny české řetězce v aplikaci, dokumentaci i šablonách psát s diakritikou.
 
 ## Bezpečnost Gitu
 - Bez výslovného požadavku nikdy nepřepisovat ani nemažat uživatelské změny.

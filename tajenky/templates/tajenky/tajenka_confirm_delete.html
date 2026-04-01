@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Smazat tajenku{% endblock %}
+
+{% block content %}
+<h1>Smazat tajenku</h1>
+<p>Opravdu chceš smazat tajenku <strong>{{ tajenka.text }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Ano, smazat</button>
+    <a href="{% url 'tajenky:detail' tajenka.pk %}" class="secondary">Zpět</a>
+</form>
+{% endblock %}
