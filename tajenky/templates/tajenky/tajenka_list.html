@@ -13,7 +13,6 @@
     <thead>
     <tr>
         <th>Tajenka</th>
-        <th>Popis</th>
         <th>Akce</th>
     </tr>
     </thead>
@@ -21,7 +20,6 @@
     {% for tajenka in tajenky %}
     <tr>
         <td><a href="{% url 'tajenky:detail' tajenka.pk %}">{{ tajenka.text }}</a></td>
-        <td>{{ tajenka.popis|default:"-"|truncatechars:80 }}</td>
         <td>
             <a href="{% url 'tajenky:update' tajenka.pk %}">Upravit</a>
             |

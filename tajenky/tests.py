@@ -14,31 +14,28 @@ class TajenkaCrudTests(TestCase):
     def test_create_tajenka(self) -> None:
         response = self.client.post(
             reverse("tajenky:create"),
-            {"text": "JARO", "popis": "Sezonni tajenka"},
+            {"text": "JARO"},
         )
 
         self.assertRedirects(response, reverse("tajenky:list"))
         self.assertTrue(Tajenka.objects.filter(text="JARO").exists())
 
     def test_update_tajenka(self) -> None:
-        tajenka = Tajenka.objects.create(text="Leto", popis="")
+        tajenka = Tajenka.objects.create(text="Léto")
 
         response = self.client.post(
             reverse("tajenky:update", args=[tajenka.pk]),
-            {"text": "LETO", "popis": "Upravena"},
+            {"text": "LÉTO"},
         )
 
         self.assertRedirects(response, reverse("tajenky:list"))
         tajenka.refresh_from_db()
-        self.assertEqual(tajenka.text, "LETO")
-        self.assertEqual(tajenka.popis, "Upravena")
+        self.assertEqual(tajenka.text, "LÉTO")
 
     def test_delete_tajenka(self) -> None:
-        tajenka = Tajenka.objects.create(text="ZIMA", popis="")
+        tajenka = Tajenka.objects.create(text="ZIMA")
 
         response = self.client.post(reverse("tajenky:delete", args=[tajenka.pk]))
 
         self.assertRedirects(response, reverse("tajenky:list"))
         self.assertFalse(Tajenka.objects.filter(pk=tajenka.pk).exists())
-
-# Create your tests here.

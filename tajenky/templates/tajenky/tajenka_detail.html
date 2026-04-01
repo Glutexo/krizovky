@@ -8,8 +8,6 @@
         <h1>{{ tajenka.text }}</h1>
         <p>Detail tajenky.</p>
     </header>
-    <p><strong>Popis:</strong></p>
-    <p>{{ tajenka.popis|default:"Bez popisu."|linebreaksbr }}</p>
     <footer>
         <a href="{% url 'tajenky:update' tajenka.pk %}" role="button">Upravit</a>
         <a href="{% url 'tajenky:delete' tajenka.pk %}" class="secondary">Smazat</a>

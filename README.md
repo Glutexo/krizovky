@@ -2,7 +2,7 @@
 
 Minimální Django aplikace pro evidenci tajenek do křížovek.
 
-Rozhraní je zatím záměrně prosté: bez přihlašování, bez administrace, jen CRUD nad tajenkami.
+Rozhraní je zatím záměrně prosté: bez přihlašování, bez administrace, jen CRUD nad samotnými tajenkami.
 
 ### Spuštění
 
