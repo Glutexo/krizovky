@@ -1,0 +1,1 @@
+"""Zakladni balicek projektu krizovky."""

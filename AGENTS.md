@@ -9,6 +9,8 @@
 - Stručně uvést předpoklady, pokud ovlivňují implementaci.
 - Důležité změny ověřovat nejmenším smysluplným příkazem nebo testem.
 - Neměnit nesouvisející soubory jen kvůli úklidu pracovního stromu.
+- Vést dokument nebo složku s dokumenty popisujícími aktuální stav projektu podle dosud vytvořeného řešení.
+- Po každé změně, přidání nebo odebrání funkcionality tuto dokumentaci aktualizovat.
 
 ## Úpravy
 - Upřednostňovat jednoduchá řešení před předčasnou abstrakcí.
