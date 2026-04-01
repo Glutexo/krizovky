@@ -12,6 +12,7 @@ Projekt slouží jako jednoduchá webová správa tajenek do křížovek.
 - Autentizace ani uživatelské účty se zatím nepoužívají.
 - Administrační rozhraní není vystavené.
 - Vzhled používá jednoduché styly přes Pico CSS z CDN.
+- Projekt je připravený na budoucí integraci s OpenAI API.
 
 ## Datový model
 
@@ -34,6 +35,8 @@ Model `Tajenka` obsahuje:
 - Spouštěcí příkaz je `poetry run python manage.py runserver`.
 - Migrace se spouští přes `poetry run python manage.py migrate`.
 - Testy se spouští přes `poetry run python manage.py test`.
+- OpenAI API klíč se načítá z proměnné prostředí `OPENAI_API_KEY`.
+- Výchozí model je nastaven přes `OPENAI_MODEL`, implicitně `gpt-4.1-mini`.
 
 ## Dokumentace
 

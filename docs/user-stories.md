@@ -14,3 +14,10 @@
 
 - Jako správce tajenek chci u tajenky uložit zdrojovou URL, abych věděl, odkud pochází.
 - Jako správce tajenek chci mít možnost nechat zdrojovou URL prázdnou, aby šlo uložit i tajenku bez dohledaného zdroje.
+
+## Připravená infrastruktura
+
+### OpenAI integrace
+
+- Jako vývojář chci mít aplikaci připravenou na připojení k OpenAI API, abych mohl později doplnit AI funkce bez přestavby konfigurace.
+- Jako vývojář chci držet OpenAI API klíč mimo verzované soubory, aby se citlivé údaje nedostaly do repozitáře.
