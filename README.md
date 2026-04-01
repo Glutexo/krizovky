@@ -25,6 +25,7 @@ OPENAI_MODEL=gpt-4.1-mini
 ```
 
 Lokálně je doporučené je držet v souboru `.env`, který není verzovaný.
+Při `manage.py check` aplikace upozorní, pokud klíč chybí nebo má podezřelý formát.
 
 ### Testy
 

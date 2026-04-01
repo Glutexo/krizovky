@@ -10,6 +10,6 @@ class OpenAIClientTests(SimpleTestCase):
             build_openai_client(api_key="")
 
     def test_build_client_accepts_api_key(self) -> None:
-        client = build_openai_client(api_key="test-key")
+        client = build_openai_client(api_key="sk-test-12345678901234567890")
 
-        self.assertEqual(client.api_key, "test-key")
+        self.assertEqual(client.api_key, "sk-test-12345678901234567890")

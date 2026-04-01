@@ -27,7 +27,8 @@ def load_dotenv(dotenv_path: Path) -> None:
             continue
 
         key, value = line.split("=", 1)
-        os.environ.setdefault(key.strip(), value.strip())
+        normalized_value = value.strip().strip("\"'")
+        os.environ.setdefault(key.strip(), normalized_value)
 
 
 load_dotenv(BASE_DIR / ".env")
@@ -138,3 +139,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4.1-mini")
+OPENAI_CONFIGURED = bool(OPENAI_API_KEY)

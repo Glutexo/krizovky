@@ -21,3 +21,4 @@
 
 - Jako vývojář chci mít aplikaci připravenou na připojení k OpenAI API, abych mohl později doplnit AI funkce bez přestavby konfigurace.
 - Jako vývojář chci držet OpenAI API klíč mimo verzované soubory, aby se citlivé údaje nedostaly do repozitáře.
+- Jako vývojář chci být při startu aplikace upozorněný na chybějící nebo zjevně chybný OpenAI klíč, abych rychle odhalil špatnou konfiguraci.

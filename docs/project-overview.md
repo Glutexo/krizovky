@@ -37,6 +37,7 @@ Model `Tajenka` obsahuje:
 - Testy se spouští přes `poetry run python manage.py test`.
 - OpenAI API klíč se načítá z proměnné prostředí `OPENAI_API_KEY`.
 - Výchozí model je nastaven přes `OPENAI_MODEL`, implicitně `gpt-4.1-mini`.
+- Aplikace při Django checku upozorní na chybějící nebo podezřele zadaný OpenAI klíč.
 
 ## Dokumentace
 
