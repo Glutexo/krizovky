@@ -35,7 +35,7 @@
             {% if answer.hidden_at %}
             <form method="post" action="{% url 'krizovky:restore' answer.pk %}" style="display:inline">
                 {% csrf_token %}
-                <button type="submit" class="secondary">Obnovit</button>
+                <button type="submit" class="link-button">Obnovit</button>
             </form>
             {% else %}
             <a href="{% url 'krizovky:hide' answer.pk %}">Skrýt</a>
