@@ -21,6 +21,7 @@ Model `SourceURL` obsahuje:
 - URL zdroje
 - datum vytvoření
 - datum poslední úpravy
+- datum měkkého smazání
 
 Model `CrosswordAnswer` obsahuje:
 
@@ -28,6 +29,7 @@ Model `CrosswordAnswer` obsahuje:
 - volitelný odkaz na `SourceURL`
 - datum vytvoření
 - datum poslední úpravy
+- datum měkkého smazání
 
 ## Uživatelské rozhraní
 
@@ -37,6 +39,7 @@ Model `CrosswordAnswer` obsahuje:
 - potvrzení smazání
 - samostatný seznam zdrojových URL
 - formulář pro vytvoření a úpravu zdrojové URL
+- měkké mazání tajenek i zdrojových URL
 
 ## Provozní poznámky
 

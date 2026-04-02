@@ -6,16 +6,9 @@
 <h1>Smazat URL</h1>
 <p>Opravdu chceš smazat URL <strong>{{ source_url.url }}</strong>?</p>
 
-{% if source_url.answers.exists %}
-<article>
-    <p>Tuto URL nelze smazat, protože je přiřazená k tajenkám.</p>
-</article>
-<a href="{% url 'crossword_answers:source_url_list' %}" class="secondary">Zpět</a>
-{% else %}
 <form method="post">
     {% csrf_token %}
-    <button type="submit">Ano, smazat</button>
+    <button type="submit">Ano, skrýt</button>
     <a href="{% url 'crossword_answers:source_url_list' %}" class="secondary">Zpět</a>
 </form>
-{% endif %}
 {% endblock %}

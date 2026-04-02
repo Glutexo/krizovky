@@ -1,10 +1,33 @@
 from django.db import models
+from django.utils import timezone
+
+
+class SoftDeleteQuerySet(models.QuerySet):
+    def active(self):
+        return self.filter(deleted_at__isnull=True)
+
+    def deleted(self):
+        return self.filter(deleted_at__isnull=False)
+
+
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return SoftDeleteQuerySet(self.model, using=self._db).active()
+
+
+class AllObjectsManager(models.Manager):
+    def get_queryset(self):
+        return SoftDeleteQuerySet(self.model, using=self._db)
 
 
 class SourceURL(models.Model):
     url = models.URLField("Zdrojová URL", unique=True)
     created_at = models.DateTimeField("Vytvořeno", auto_now_add=True)
     updated_at = models.DateTimeField("Upraveno", auto_now=True)
+    deleted_at = models.DateTimeField("Smazáno", blank=True, null=True)
+
+    objects = ActiveManager()
+    all_objects = AllObjectsManager()
 
     class Meta:
         db_table = "crossword_answers_source_url"
@@ -14,6 +37,14 @@ class SourceURL(models.Model):
 
     def __str__(self) -> str:
         return self.url
+
+    def soft_delete(self) -> None:
+        self.deleted_at = timezone.now()
+        self.save(update_fields=["deleted_at", "updated_at"])
+
+    def restore(self) -> None:
+        self.deleted_at = None
+        self.save(update_fields=["deleted_at", "updated_at"])
 
 
 class CrosswordAnswer(models.Model):
@@ -28,6 +59,10 @@ class CrosswordAnswer(models.Model):
     )
     created_at = models.DateTimeField("Vytvořeno", auto_now_add=True)
     updated_at = models.DateTimeField("Upraveno", auto_now=True)
+    deleted_at = models.DateTimeField("Smazáno", blank=True, null=True)
+
+    objects = ActiveManager()
+    all_objects = AllObjectsManager()
 
     class Meta:
         db_table = "crossword_answers_crossword_answer"
@@ -37,3 +72,7 @@ class CrosswordAnswer(models.Model):
 
     def __str__(self) -> str:
         return self.text
+
+    def soft_delete(self) -> None:
+        self.deleted_at = timezone.now()
+        self.save(update_fields=["deleted_at", "updated_at"])

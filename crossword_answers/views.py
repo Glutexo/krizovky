@@ -1,8 +1,16 @@
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import CrosswordAnswerForm, SourceURLForm
 from .models import CrosswordAnswer, SourceURL
+
+
+class SoftDeleteView(DeleteView):
+    def form_valid(self, form):
+        self.object = self.get_object()
+        self.object.soft_delete()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class CrosswordAnswerListView(ListView):
@@ -31,7 +39,7 @@ class CrosswordAnswerUpdateView(UpdateView):
     success_url = reverse_lazy("crossword_answers:list")
 
 
-class CrosswordAnswerDeleteView(DeleteView):
+class CrosswordAnswerDeleteView(SoftDeleteView):
     model = CrosswordAnswer
     context_object_name = "answer"
     template_name = "crossword_answers/answer_confirm_delete.html"
@@ -58,7 +66,7 @@ class SourceURLUpdateView(UpdateView):
     success_url = reverse_lazy("crossword_answers:source_url_list")
 
 
-class SourceURLDeleteView(DeleteView):
+class SourceURLDeleteView(SoftDeleteView):
     model = SourceURL
     context_object_name = "source_url"
     template_name = "crossword_answers/source_url_confirm_delete.html"

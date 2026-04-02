@@ -56,6 +56,7 @@ class CrosswordAnswerCrudTests(TestCase):
 
         self.assertRedirects(response, reverse("crossword_answers:list"))
         self.assertFalse(CrosswordAnswer.objects.filter(pk=answer.pk).exists())
+        self.assertIsNotNone(CrosswordAnswer.all_objects.get(pk=answer.pk).deleted_at)
 
     def test_source_url_can_have_multiple_answers(self) -> None:
         source_url = SourceURL.objects.create(url="https://example.com/spolecny-zdroj")
@@ -76,6 +77,14 @@ class CrosswordAnswerCrudTests(TestCase):
         self.assertRedirects(response, reverse("crossword_answers:list"))
         answer.refresh_from_db()
         self.assertIsNone(answer.source_url)
+
+    def test_deleted_answer_is_hidden_from_list(self) -> None:
+        answer = CrosswordAnswer.objects.create(text="SKRYTA")
+        answer.soft_delete()
+
+        response = self.client.get(reverse("crossword_answers:list"))
+
+        self.assertNotContains(response, "SKRYTA")
 
 
 class SourceURLCrudTests(TestCase):
@@ -115,3 +124,25 @@ class SourceURLCrudTests(TestCase):
 
         self.assertRedirects(response, reverse("crossword_answers:source_url_list"))
         self.assertFalse(SourceURL.objects.filter(pk=source_url.pk).exists())
+        self.assertIsNotNone(SourceURL.all_objects.get(pk=source_url.pk).deleted_at)
+
+    def test_deleted_source_url_is_hidden_from_picker(self) -> None:
+        source_url = SourceURL.objects.create(url="https://example.com/skryty-zdroj")
+        source_url.soft_delete()
+
+        response = self.client.get(reverse("crossword_answers:create"))
+
+        self.assertNotContains(response, source_url.url)
+
+    def test_creating_same_deleted_source_url_restores_it(self) -> None:
+        source_url = SourceURL.objects.create(url="https://example.com/obnovit-zdroj")
+        source_url.soft_delete()
+
+        response = self.client.post(
+            reverse("crossword_answers:source_url_create"),
+            {"url": source_url.url},
+        )
+
+        self.assertRedirects(response, reverse("crossword_answers:source_url_list"))
+        source_url.refresh_from_db()
+        self.assertIsNone(source_url.deleted_at)
