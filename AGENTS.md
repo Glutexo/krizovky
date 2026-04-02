@@ -21,6 +21,7 @@
 - Komentáře psát stručně a jen tam, kde skutečně přidávají hodnotu.
 - Ve výchozím stavu používat ASCII, pokud soubor už sám nevyžaduje Unicode.
 - Všechny české řetězce v aplikaci, dokumentaci i šablonách psát s diakritikou.
+- Názvy modelů, tříd, proměnných, tabulek, sloupců a podobných technických identifikátorů psát anglicky.
 
 ## Bezpečnost Gitu
 - Bez výslovného požadavku nikdy nepřepisovat ani nemažat uživatelské změny.
