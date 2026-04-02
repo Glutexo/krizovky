@@ -35,6 +35,16 @@ class CrosswordAnswerCrudTests(TestCase):
         self.assertEqual(answer.text, "LÉTO")
         self.assertEqual(answer.source_url.url, "https://example.com/leto")
 
+    def test_create_answer_without_source_url(self) -> None:
+        response = self.client.post(
+            reverse("crossword_answers:create"),
+            {"text": "LISTOPAD", "source_url_value": ""},
+        )
+
+        self.assertRedirects(response, reverse("crossword_answers:list"))
+        answer = CrosswordAnswer.objects.get(text="LISTOPAD")
+        self.assertIsNone(answer.source_url)
+
     def test_delete_answer(self) -> None:
         source_url = SourceURL.objects.create(url="https://example.com/zima")
         answer = CrosswordAnswer.objects.create(text="ZIMA", source_url=source_url)
@@ -61,3 +71,16 @@ class CrosswordAnswerCrudTests(TestCase):
 
         self.assertRedirects(response, reverse("crossword_answers:list"))
         self.assertEqual(SourceURL.objects.filter(url=source_url.url).count(), 1)
+
+    def test_update_answer_can_clear_source_url(self) -> None:
+        source_url = SourceURL.objects.create(url="https://example.com/docasny-zdroj")
+        answer = CrosswordAnswer.objects.create(text="DUBEN", source_url=source_url)
+
+        response = self.client.post(
+            reverse("crossword_answers:update", args=[answer.pk]),
+            {"text": "DUBEN", "source_url_value": ""},
+        )
+
+        self.assertRedirects(response, reverse("crossword_answers:list"))
+        answer.refresh_from_db()
+        self.assertIsNone(answer.source_url)

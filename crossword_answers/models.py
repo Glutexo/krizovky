@@ -20,6 +20,8 @@ class CrosswordAnswer(models.Model):
     text = models.CharField("Tajenka", max_length=255)
     source_url = models.ForeignKey(
         SourceURL,
+        blank=True,
+        null=True,
         on_delete=models.PROTECT,
         related_name="answers",
         verbose_name="Zdrojová URL",

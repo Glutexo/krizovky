@@ -9,7 +9,11 @@
     </header>
     <p>
         <strong>Zdroj:</strong>
-        <a href="{{ answer.source_url.url }}">{{ answer.source_url.url }}</a>
+        {% if answer.source_url %}
+            <a href="{{ answer.source_url.url }}">{{ answer.source_url.url }}</a>
+        {% else %}
+            Není uveden.
+        {% endif %}
     </p>
     <footer>
         <a href="{% url 'crossword_answers:update' answer.pk %}" role="button">Upravit</a>

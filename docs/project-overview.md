@@ -25,7 +25,7 @@ Model `SourceURL` obsahuje:
 Model `CrosswordAnswer` obsahuje:
 
 - text tajenky
-- povinný odkaz na `SourceURL`
+- volitelný odkaz na `SourceURL`
 - datum vytvoření
 - datum poslední úpravy
 
