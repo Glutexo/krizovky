@@ -9,13 +9,13 @@ class OpenAIConfigurationChecksTests(SimpleTestCase):
     def test_check_warns_when_key_is_missing(self) -> None:
         messages = openai_configuration_check(None)
 
-        self.assertEqual([message.id for message in messages], ["crossword_answers.W001"])
+        self.assertEqual([message.id for message in messages], ["krizovky.W001"])
 
     @override_settings(OPENAI_API_KEY="invalid-key")
     def test_check_warns_when_key_has_invalid_format(self) -> None:
         messages = openai_configuration_check(None)
 
-        self.assertEqual([message.id for message in messages], ["crossword_answers.W002"])
+        self.assertEqual([message.id for message in messages], ["krizovky.W002"])
 
     @override_settings(OPENAI_API_KEY="sk-test-12345678901234567890")
     def test_check_passes_for_plausible_key(self) -> None:

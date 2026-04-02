@@ -29,6 +29,7 @@
 ### Technické pojmenování
 
 - Jako vývojář chci mít modely, třídy, proměnné a databázové identifikátory anglicky, aby byl kód konzistentní.
+- Jako vývojář chci mít jako výjimku název samotné aplikace `krizovky`, aby odpovídal doméně projektu.
 
 ## Připravená infrastruktura
 

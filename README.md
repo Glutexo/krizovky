@@ -4,7 +4,7 @@ Minimální Django aplikace pro evidenci tajenek do křížovek.
 
 Rozhraní je zatím záměrně prosté: bez přihlašování, bez administrace, jen CRUD nad samotnými tajenkami.
 
-Technické identifikátory v kódu používají anglické názvy; uživatelské texty zůstávají česky.
+Technické identifikátory v kódu používají anglické názvy; výjimkou je samotná Django aplikace `krizovky`. Uživatelské texty zůstávají česky.
 
 ### Spuštění
 

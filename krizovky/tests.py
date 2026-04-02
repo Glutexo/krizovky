@@ -6,7 +6,7 @@ from .models import CrosswordAnswer, SourceURL
 
 class CrosswordAnswerCrudTests(TestCase):
     def test_list_page_loads(self) -> None:
-        response = self.client.get(reverse("crossword_answers:list"))
+        response = self.client.get(reverse("krizovky:list"))
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Tajenky")
@@ -15,11 +15,11 @@ class CrosswordAnswerCrudTests(TestCase):
         source_url = SourceURL.objects.create(url="https://example.com/jaro")
 
         response = self.client.post(
-            reverse("crossword_answers:create"),
+            reverse("krizovky:create"),
             {"text": "JARO", "source_url": source_url.pk},
         )
 
-        self.assertRedirects(response, reverse("crossword_answers:list"))
+        self.assertRedirects(response, reverse("krizovky:list"))
         answer = CrosswordAnswer.objects.get(text="JARO")
         self.assertEqual(answer.source_url, source_url)
 
@@ -29,22 +29,22 @@ class CrosswordAnswerCrudTests(TestCase):
         answer = CrosswordAnswer.objects.create(text="Léto", source_url=original_source_url)
 
         response = self.client.post(
-            reverse("crossword_answers:update", args=[answer.pk]),
+            reverse("krizovky:update", args=[answer.pk]),
             {"text": "LÉTO", "source_url": new_source_url.pk},
         )
 
-        self.assertRedirects(response, reverse("crossword_answers:list"))
+        self.assertRedirects(response, reverse("krizovky:list"))
         answer.refresh_from_db()
         self.assertEqual(answer.text, "LÉTO")
         self.assertEqual(answer.source_url, new_source_url)
 
     def test_create_answer_without_source_url(self) -> None:
         response = self.client.post(
-            reverse("crossword_answers:create"),
+            reverse("krizovky:create"),
             {"text": "LISTOPAD", "source_url": ""},
         )
 
-        self.assertRedirects(response, reverse("crossword_answers:list"))
+        self.assertRedirects(response, reverse("krizovky:list"))
         answer = CrosswordAnswer.objects.get(text="LISTOPAD")
         self.assertIsNone(answer.source_url)
 
@@ -52,9 +52,9 @@ class CrosswordAnswerCrudTests(TestCase):
         source_url = SourceURL.objects.create(url="https://example.com/zima")
         answer = CrosswordAnswer.objects.create(text="ZIMA", source_url=source_url)
 
-        response = self.client.post(reverse("crossword_answers:delete", args=[answer.pk]))
+        response = self.client.post(reverse("krizovky:delete", args=[answer.pk]))
 
-        self.assertRedirects(response, reverse("crossword_answers:list"))
+        self.assertRedirects(response, reverse("krizovky:list"))
         self.assertFalse(CrosswordAnswer.objects.filter(pk=answer.pk).exists())
         self.assertIsNotNone(CrosswordAnswer.all_objects.get(pk=answer.pk).deleted_at)
 
@@ -70,11 +70,11 @@ class CrosswordAnswerCrudTests(TestCase):
         answer = CrosswordAnswer.objects.create(text="DUBEN", source_url=source_url)
 
         response = self.client.post(
-            reverse("crossword_answers:update", args=[answer.pk]),
+            reverse("krizovky:update", args=[answer.pk]),
             {"text": "DUBEN", "source_url": ""},
         )
 
-        self.assertRedirects(response, reverse("crossword_answers:list"))
+        self.assertRedirects(response, reverse("krizovky:list"))
         answer.refresh_from_db()
         self.assertIsNone(answer.source_url)
 
@@ -82,36 +82,36 @@ class CrosswordAnswerCrudTests(TestCase):
         answer = CrosswordAnswer.objects.create(text="SKRYTA")
         answer.soft_delete()
 
-        response = self.client.get(reverse("crossword_answers:list"))
+        response = self.client.get(reverse("krizovky:list"))
 
         self.assertNotContains(response, "SKRYTA")
 
 
 class SourceURLCrudTests(TestCase):
     def test_list_page_loads(self) -> None:
-        response = self.client.get(reverse("crossword_answers:source_url_list"))
+        response = self.client.get(reverse("krizovky:source_url_list"))
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "URL zdroje")
 
     def test_create_source_url(self) -> None:
         response = self.client.post(
-            reverse("crossword_answers:source_url_create"),
+            reverse("krizovky:source_url_create"),
             {"url": "https://example.com/novy-zdroj"},
         )
 
-        self.assertRedirects(response, reverse("crossword_answers:source_url_list"))
+        self.assertRedirects(response, reverse("krizovky:source_url_list"))
         self.assertTrue(SourceURL.objects.filter(url="https://example.com/novy-zdroj").exists())
 
     def test_update_source_url(self) -> None:
         source_url = SourceURL.objects.create(url="https://example.com/stary-zdroj")
 
         response = self.client.post(
-            reverse("crossword_answers:source_url_update", args=[source_url.pk]),
+            reverse("krizovky:source_url_update", args=[source_url.pk]),
             {"url": "https://example.com/novy-zdroj"},
         )
 
-        self.assertRedirects(response, reverse("crossword_answers:source_url_list"))
+        self.assertRedirects(response, reverse("krizovky:source_url_list"))
         source_url.refresh_from_db()
         self.assertEqual(source_url.url, "https://example.com/novy-zdroj")
 
@@ -119,10 +119,10 @@ class SourceURLCrudTests(TestCase):
         source_url = SourceURL.objects.create(url="https://example.com/smazat-zdroj")
 
         response = self.client.post(
-            reverse("crossword_answers:source_url_delete", args=[source_url.pk]),
+            reverse("krizovky:source_url_delete", args=[source_url.pk]),
         )
 
-        self.assertRedirects(response, reverse("crossword_answers:source_url_list"))
+        self.assertRedirects(response, reverse("krizovky:source_url_list"))
         self.assertFalse(SourceURL.objects.filter(pk=source_url.pk).exists())
         self.assertIsNotNone(SourceURL.all_objects.get(pk=source_url.pk).deleted_at)
 
@@ -130,7 +130,7 @@ class SourceURLCrudTests(TestCase):
         source_url = SourceURL.objects.create(url="https://example.com/skryty-zdroj")
         source_url.soft_delete()
 
-        response = self.client.get(reverse("crossword_answers:create"))
+        response = self.client.get(reverse("krizovky:create"))
 
         self.assertNotContains(response, source_url.url)
 
@@ -139,10 +139,10 @@ class SourceURLCrudTests(TestCase):
         source_url.soft_delete()
 
         response = self.client.post(
-            reverse("crossword_answers:source_url_create"),
+            reverse("krizovky:source_url_create"),
             {"url": source_url.url},
         )
 
-        self.assertRedirects(response, reverse("crossword_answers:source_url_list"))
+        self.assertRedirects(response, reverse("krizovky:source_url_list"))
         source_url.refresh_from_db()
         self.assertIsNone(source_url.deleted_at)

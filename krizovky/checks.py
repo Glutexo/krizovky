@@ -11,7 +11,7 @@ def openai_configuration_check(app_configs, **kwargs):
             Warning(
                 "OpenAI API klíč není nastavený.",
                 hint="Doplň OPENAI_API_KEY do proměnné prostředí nebo do lokálního souboru .env.",
-                id="crossword_answers.W001",
+                id="krizovky.W001",
             )
         ]
 
@@ -20,7 +20,7 @@ def openai_configuration_check(app_configs, **kwargs):
             Warning(
                 "OpenAI API klíč má neobvyklý formát.",
                 hint="Zkontroluj, že OPENAI_API_KEY nezačíná nebo nekončí navíc uvozovkami a není zkrácený.",
-                id="crossword_answers.W002",
+                id="krizovky.W002",
             )
         ]
 

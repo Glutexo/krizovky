@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class CrosswordAnswersConfig(AppConfig):
+class KrizovkyConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "crossword_answers"
+    name = "krizovky"
     label = "tajenky"
 
     def ready(self) -> None:

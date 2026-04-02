@@ -16,9 +16,9 @@
         {% endif %}
     </p>
     <footer>
-        <a href="{% url 'crossword_answers:update' answer.pk %}" role="button">Upravit</a>
-        <a href="{% url 'crossword_answers:delete' answer.pk %}" class="secondary">Smazat</a>
-        <a href="{% url 'crossword_answers:list' %}" class="secondary">Zpět na seznam</a>
+        <a href="{% url 'krizovky:update' answer.pk %}" role="button">Upravit</a>
+        <a href="{% url 'krizovky:delete' answer.pk %}" class="secondary">Smazat</a>
+        <a href="{% url 'krizovky:list' %}" class="secondary">Zpět na seznam</a>
     </footer>
 </article>
 {% endblock %}

@@ -12,7 +12,7 @@ from .views import (
     SourceURLUpdateView,
 )
 
-app_name = "crossword_answers"
+app_name = "krizovky"
 
 urlpatterns = [
     path("", CrosswordAnswerListView.as_view(), name="list"),

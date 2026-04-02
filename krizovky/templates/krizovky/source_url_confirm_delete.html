@@ -9,6 +9,6 @@
 <form method="post">
     {% csrf_token %}
     <button type="submit">Ano, skrýt</button>
-    <a href="{% url 'crossword_answers:source_url_list' %}" class="secondary">Zpět</a>
+    <a href="{% url 'krizovky:source_url_list' %}" class="secondary">Zpět</a>
 </form>
 {% endblock %}

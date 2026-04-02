@@ -5,7 +5,7 @@
 {% block content %}
 <header>
     <h1>URL zdroje</h1>
-    <p><a href="{% url 'crossword_answers:source_url_create' %}" role="button">Nová URL</a></p>
+    <p><a href="{% url 'krizovky:source_url_create' %}" role="button">Nová URL</a></p>
 </header>
 
 {% if source_urls %}
@@ -23,9 +23,9 @@
         <td><a href="{{ source_url.url }}">{{ source_url.url }}</a></td>
         <td>{{ source_url.answers.count }}</td>
         <td>
-            <a href="{% url 'crossword_answers:source_url_update' source_url.pk %}">Upravit</a>
+            <a href="{% url 'krizovky:source_url_update' source_url.pk %}">Upravit</a>
             |
-            <a href="{% url 'crossword_answers:source_url_delete' source_url.pk %}">Smazat</a>
+            <a href="{% url 'krizovky:source_url_delete' source_url.pk %}">Smazat</a>
         </td>
     </tr>
     {% endfor %}
@@ -35,7 +35,7 @@
 <article>
     <h2>Zatím bez URL</h2>
     <p>První zdrojovou URL můžeš přidat hned teď.</p>
-    <a href="{% url 'crossword_answers:source_url_create' %}" role="button">Přidat URL</a>
+    <a href="{% url 'krizovky:source_url_create' %}" role="button">Přidat URL</a>
 </article>
 {% endif %}
 {% endblock %}
