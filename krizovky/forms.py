@@ -4,6 +4,13 @@ from django.db.models import Q
 from .models import CrosswordAnswer, SourceURL
 
 
+class SourceImportForm(forms.Form):
+    url = forms.URLField(
+        label="Zdrojová URL",
+        help_text="Z obsahu této stránky se zkusí automaticky vytáhnout vhodné tajenky.",
+    )
+
+
 class CrosswordAnswerForm(forms.ModelForm):
     class Meta:
         model = CrosswordAnswer

@@ -36,6 +36,7 @@ Model `CrosswordAnswer` obsahuje:
 - seznam tajenek
 - detail tajenky
 - formulář pro vytvoření a úpravu s výběrem existující zdrojové URL
+- formulář na hlavní stránce pro zadání zdrojové URL a hromadný AI import tajenek z obsahu stránky
 - potvrzení skrytí
 - samostatný seznam zdrojových URL
 - formulář pro vytvoření a úpravu zdrojové URL
@@ -51,6 +52,8 @@ Model `CrosswordAnswer` obsahuje:
 - OpenAI API klíč se načítá z proměnné prostředí `OPENAI_API_KEY`.
 - Výchozí model je nastaven přes `OPENAI_MODEL`, implicitně `gpt-4.1-mini`.
 - Aplikace při Django checku upozorní na chybějící nebo podezřele zadaný OpenAI klíč.
+- Při AI importu aplikace stáhne HTML stránky, vytáhne z něj čitelný text a ten pošle OpenAI k návrhu tajenek.
+- Import automaticky znovu použije existující zdrojovou URL, obnoví dříve skryté záznamy a nepřidá viditelné duplicity stejné tajenky pro stejný zdroj.
 
 ## Dokumentace
 

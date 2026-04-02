@@ -5,6 +5,12 @@
 {% block content %}
 <header>
     <h1>Tajenky</h1>
+    <p>Zadej URL stránky a aplikace z jejího obsahu zkusí vytáhnout vhodné tajenky do databáze.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ import_form.as_p }}
+        <button type="submit">Importovat ze stránky</button>
+    </form>
     <p>
         {% if show_hidden %}
             <a href="{% url 'krizovky:list' %}">Skrýt skryté záznamy</a>

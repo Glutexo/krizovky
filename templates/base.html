@@ -47,6 +47,13 @@
             <li><a href="{% url 'krizovky:create' %}" role="button">Nová tajenka</a></li>
         </ul>
     </nav>
+    {% if messages %}
+        {% for message in messages %}
+        <article>
+            {{ message }}
+        </article>
+        {% endfor %}
+    {% endif %}
     {% block content %}{% endblock %}
 </main>
 </body>

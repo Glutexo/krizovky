@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
+from unittest.mock import patch
 
 from .models import CrosswordAnswer, SourceURL
+from .source_import import ImportResult, SourceImportError
 
 
 class CrosswordAnswerCrudTests(TestCase):
@@ -10,6 +12,35 @@ class CrosswordAnswerCrudTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Tajenky")
+        self.assertContains(response, "Zdrojová URL")
+
+    @patch("krizovky.views.import_answers_from_source_url")
+    def test_homepage_imports_answers_from_source_url(self, import_mock) -> None:
+        source_url = SourceURL.objects.create(url="https://example.com/clanek")
+        import_mock.return_value = ImportResult(
+            source_url=source_url,
+            created_count=2,
+            restored_count=1,
+            skipped_count=0,
+        )
+
+        response = self.client.post(
+            reverse("krizovky:list"),
+            {"url": source_url.url},
+            follow=True,
+        )
+
+        self.assertRedirects(response, reverse("krizovky:list"))
+        import_mock.assert_called_once_with(source_url.url)
+        self.assertContains(response, "Import ze zdroje https://example.com/clanek dokončen")
+
+    @patch("krizovky.views.import_answers_from_source_url", side_effect=SourceImportError("Chyba importu."))
+    def test_homepage_shows_import_error(self, import_mock) -> None:
+        response = self.client.post(reverse("krizovky:list"), {"url": "https://example.com/chyba"})
+
+        self.assertEqual(response.status_code, 200)
+        import_mock.assert_called_once_with("https://example.com/chyba")
+        self.assertContains(response, "Chyba importu.")
 
     def test_create_answer(self) -> None:
         source_url = SourceURL.objects.create(url="https://example.com/jaro")

@@ -1,10 +1,12 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
-from .forms import CrosswordAnswerForm, SourceURLForm
+from .forms import CrosswordAnswerForm, SourceImportForm, SourceURLForm
 from .models import CrosswordAnswer, SourceURL
+from .source_import import SourceImportError, import_answers_from_source_url
 
 
 class HideView(DeleteView):
@@ -25,7 +27,35 @@ class CrosswordAnswerListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["show_hidden"] = self.show_hidden
+        context["import_form"] = kwargs.get("import_form", SourceImportForm())
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = SourceImportForm(request.POST)
+        self.object_list = self.get_queryset()
+
+        if form.is_valid():
+            source_url = form.cleaned_data["url"]
+
+            try:
+                result = import_answers_from_source_url(source_url)
+            except SourceImportError as exc:
+                form.add_error("url", str(exc))
+            else:
+                parts = [f"uloženo {result.created_count}"]
+                if result.restored_count:
+                    parts.append(f"obnoveno {result.restored_count}")
+                if result.skipped_count:
+                    parts.append(f"přeskočeno {result.skipped_count}")
+
+                messages.success(
+                    request,
+                    f"Import ze zdroje {result.source_url.url} dokončen: {', '.join(parts)} tajenek.",
+                )
+                return HttpResponseRedirect(reverse("krizovky:list"))
+
+        context = self.get_context_data(import_form=form)
+        return self.render_to_response(context)
 
     @property
     def show_hidden(self) -> bool:
