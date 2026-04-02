@@ -17,7 +17,14 @@
     </p>
     <footer>
         <a href="{% url 'krizovky:update' answer.pk %}" role="button">Upravit</a>
-        <a href="{% url 'krizovky:delete' answer.pk %}" class="secondary">Smazat</a>
+        {% if answer.hidden_at %}
+        <form method="post" action="{% url 'krizovky:restore' answer.pk %}" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="secondary">Obnovit</button>
+        </form>
+        {% else %}
+        <a href="{% url 'krizovky:hide' answer.pk %}" class="secondary">Skrýt</a>
+        {% endif %}
         <a href="{% url 'krizovky:list' %}" class="secondary">Zpět na seznam</a>
     </footer>
 </article>

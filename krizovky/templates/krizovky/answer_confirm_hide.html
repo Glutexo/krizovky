@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Smazat tajenku{% endblock %}
+{% block title %}Skrýt tajenku{% endblock %}
 
 {% block content %}
-<h1>Smazat tajenku</h1>
-<p>Opravdu chceš smazat tajenku <strong>{{ answer.text }}</strong>?</p>
+<h1>Skrýt tajenku</h1>
+<p>Opravdu chceš skrýt tajenku <strong>{{ answer.text }}</strong>?</p>
 
 <form method="post">
     {% csrf_token %}
-    <button type="submit">Ano, smazat</button>
+    <button type="submit">Ano, skrýt</button>
     <a href="{% url 'krizovky:detail' answer.pk %}" class="secondary">Zpět</a>
 </form>
 {% endblock %}

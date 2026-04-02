@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Smazat URL{% endblock %}
+{% block title %}Skrýt URL{% endblock %}
 
 {% block content %}
-<h1>Smazat URL</h1>
-<p>Opravdu chceš smazat URL <strong>{{ source_url.url }}</strong>?</p>
+<h1>Skrýt URL</h1>
+<p>Opravdu chceš skrýt URL <strong>{{ source_url.url }}</strong>?</p>
 
 <form method="post">
     {% csrf_token %}

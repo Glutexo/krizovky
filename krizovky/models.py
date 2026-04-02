@@ -2,29 +2,29 @@ from django.db import models
 from django.utils import timezone
 
 
-class SoftDeleteQuerySet(models.QuerySet):
+class VisibilityQuerySet(models.QuerySet):
     def active(self):
-        return self.filter(deleted_at__isnull=True)
+        return self.filter(hidden_at__isnull=True)
 
-    def deleted(self):
-        return self.filter(deleted_at__isnull=False)
+    def hidden(self):
+        return self.filter(hidden_at__isnull=False)
 
 
 class ActiveManager(models.Manager):
     def get_queryset(self):
-        return SoftDeleteQuerySet(self.model, using=self._db).active()
+        return VisibilityQuerySet(self.model, using=self._db).active()
 
 
 class AllObjectsManager(models.Manager):
     def get_queryset(self):
-        return SoftDeleteQuerySet(self.model, using=self._db)
+        return VisibilityQuerySet(self.model, using=self._db)
 
 
 class SourceURL(models.Model):
     url = models.URLField("Zdrojová URL", unique=True)
     created_at = models.DateTimeField("Vytvořeno", auto_now_add=True)
     updated_at = models.DateTimeField("Upraveno", auto_now=True)
-    deleted_at = models.DateTimeField("Smazáno", blank=True, null=True)
+    hidden_at = models.DateTimeField("Skryto", blank=True, null=True)
 
     objects = ActiveManager()
     all_objects = AllObjectsManager()
@@ -38,13 +38,13 @@ class SourceURL(models.Model):
     def __str__(self) -> str:
         return self.url
 
-    def soft_delete(self) -> None:
-        self.deleted_at = timezone.now()
-        self.save(update_fields=["deleted_at", "updated_at"])
+    def hide(self) -> None:
+        self.hidden_at = timezone.now()
+        self.save(update_fields=["hidden_at", "updated_at"])
 
     def restore(self) -> None:
-        self.deleted_at = None
-        self.save(update_fields=["deleted_at", "updated_at"])
+        self.hidden_at = None
+        self.save(update_fields=["hidden_at", "updated_at"])
 
 
 class CrosswordAnswer(models.Model):
@@ -59,7 +59,7 @@ class CrosswordAnswer(models.Model):
     )
     created_at = models.DateTimeField("Vytvořeno", auto_now_add=True)
     updated_at = models.DateTimeField("Upraveno", auto_now=True)
-    deleted_at = models.DateTimeField("Smazáno", blank=True, null=True)
+    hidden_at = models.DateTimeField("Skryto", blank=True, null=True)
 
     objects = ActiveManager()
     all_objects = AllObjectsManager()
@@ -73,6 +73,10 @@ class CrosswordAnswer(models.Model):
     def __str__(self) -> str:
         return self.text
 
-    def soft_delete(self) -> None:
-        self.deleted_at = timezone.now()
-        self.save(update_fields=["deleted_at", "updated_at"])
+    def hide(self) -> None:
+        self.hidden_at = timezone.now()
+        self.save(update_fields=["hidden_at", "updated_at"])
+
+    def restore(self) -> None:
+        self.hidden_at = None
+        self.save(update_fields=["hidden_at", "updated_at"])

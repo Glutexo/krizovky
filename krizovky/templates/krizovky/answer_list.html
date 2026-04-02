@@ -5,6 +5,13 @@
 {% block content %}
 <header>
     <h1>Tajenky</h1>
+    <p>
+        {% if show_hidden %}
+            <a href="{% url 'krizovky:list' %}">Skrýt skryté záznamy</a>
+        {% else %}
+            <a href="{% url 'krizovky:list' %}?show_hidden=1">Zobrazit i skryté záznamy</a>
+        {% endif %}
+    </p>
 </header>
 
 {% if answers %}
@@ -18,11 +25,21 @@
     <tbody>
     {% for answer in answers %}
     <tr>
-        <td><a href="{% url 'krizovky:detail' answer.pk %}">{{ answer.text }}</a></td>
+        <td>
+            <a href="{% url 'krizovky:detail' answer.pk %}">{{ answer.text }}</a>
+            {% if answer.hidden_at %}<small>(skryté)</small>{% endif %}
+        </td>
         <td>
             <a href="{% url 'krizovky:update' answer.pk %}">Upravit</a>
             |
-            <a href="{% url 'krizovky:delete' answer.pk %}">Smazat</a>
+            {% if answer.hidden_at %}
+            <form method="post" action="{% url 'krizovky:restore' answer.pk %}" style="display:inline">
+                {% csrf_token %}
+                <button type="submit" class="secondary">Obnovit</button>
+            </form>
+            {% else %}
+            <a href="{% url 'krizovky:hide' answer.pk %}">Skrýt</a>
+            {% endif %}
         </td>
     </tr>
     {% endfor %}
@@ -30,9 +47,14 @@
 </table>
 {% else %}
 <article>
+    {% if show_hidden %}
+    <h2>Žádné záznamy k zobrazení</h2>
+    <p>Včetně skrytých záznamů je seznam prázdný.</p>
+    {% else %}
     <h2>Zatím bez tajenek</h2>
     <p>První záznam můžeš přidat hned teď.</p>
     <a href="{% url 'krizovky:create' %}" role="button">Přidat tajenku</a>
+    {% endif %}
 </article>
 {% endif %}
 {% endblock %}

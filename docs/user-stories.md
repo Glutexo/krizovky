@@ -14,8 +14,8 @@
 - Jako správce tajenek chci otevřít detail tajenky, abych viděl její přesné znění a případný zdroj.
 - Jako správce tajenek chci založit novou tajenku, abych ji mohl uložit do databáze.
 - Jako správce tajenek chci upravit existující tajenku, abych mohl opravit její text nebo zdrojovou URL.
-- Jako správce tajenek chci smazat tajenku, abych odstranil záznam, který už nechci evidovat.
-- Jako správce tajenek chci, aby smazání bylo měkké, abych o data nepřišel fyzickým odstraněním.
+- Jako správce tajenek chci skrýt tajenku, abych ji vyřadil z běžného přehledu bez ztráty dat.
+- Jako správce tajenek chci mít možnost zobrazit i skryté tajenky a případně je obnovit.
 
 ### Zdroj tajenky
 
@@ -24,7 +24,7 @@
 - Jako správce tajenek chci mít možnost uložit tajenku i bez zdrojové URL, pokud zdroj neznám.
 - Jako správce tajenek chci spravovat seznam zdrojových URL samostatně, abych je mohl připravit předem a znovu používat.
 - Jako správce tajenek chci při editaci tajenky vybírat zdrojovou URL ze seznamu, abych se vyhnul překlepům.
-- Jako správce tajenek chci i zdrojové URL mazat jen měkce, aby šly později obnovit a nezpůsobily ztrátu vazeb.
+- Jako správce tajenek chci i zdrojové URL skrývat místo mazání, aby šly později obnovit a nezpůsobily ztrátu vazeb.
 
 ### Technické pojmenování
 

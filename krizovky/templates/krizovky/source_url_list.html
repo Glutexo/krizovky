@@ -6,6 +6,13 @@
 <header>
     <h1>URL zdroje</h1>
     <p><a href="{% url 'krizovky:source_url_create' %}" role="button">Nová URL</a></p>
+    <p>
+        {% if show_hidden %}
+            <a href="{% url 'krizovky:source_url_list' %}">Skrýt skryté záznamy</a>
+        {% else %}
+            <a href="{% url 'krizovky:source_url_list' %}?show_hidden=1">Zobrazit i skryté záznamy</a>
+        {% endif %}
+    </p>
 </header>
 
 {% if source_urls %}
@@ -20,12 +27,22 @@
     <tbody>
     {% for source_url in source_urls %}
     <tr>
-        <td><a href="{{ source_url.url }}">{{ source_url.url }}</a></td>
+        <td>
+            <a href="{{ source_url.url }}">{{ source_url.url }}</a>
+            {% if source_url.hidden_at %}<small>(skryté)</small>{% endif %}
+        </td>
         <td>{{ source_url.answers.count }}</td>
         <td>
             <a href="{% url 'krizovky:source_url_update' source_url.pk %}">Upravit</a>
             |
-            <a href="{% url 'krizovky:source_url_delete' source_url.pk %}">Smazat</a>
+            {% if source_url.hidden_at %}
+            <form method="post" action="{% url 'krizovky:source_url_restore' source_url.pk %}" style="display:inline">
+                {% csrf_token %}
+                <button type="submit" class="secondary">Obnovit</button>
+            </form>
+            {% else %}
+            <a href="{% url 'krizovky:source_url_hide' source_url.pk %}">Skrýt</a>
+            {% endif %}
         </td>
     </tr>
     {% endfor %}
@@ -33,9 +50,14 @@
 </table>
 {% else %}
 <article>
+    {% if show_hidden %}
+    <h2>Žádné záznamy k zobrazení</h2>
+    <p>Včetně skrytých URL je seznam prázdný.</p>
+    {% else %}
     <h2>Zatím bez URL</h2>
     <p>První zdrojovou URL můžeš přidat hned teď.</p>
     <a href="{% url 'krizovky:source_url_create' %}" role="button">Přidat URL</a>
+    {% endif %}
 </article>
 {% endif %}
 {% endblock %}

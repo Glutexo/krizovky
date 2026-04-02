@@ -48,15 +48,15 @@ class CrosswordAnswerCrudTests(TestCase):
         answer = CrosswordAnswer.objects.get(text="LISTOPAD")
         self.assertIsNone(answer.source_url)
 
-    def test_delete_answer(self) -> None:
+    def test_hide_answer(self) -> None:
         source_url = SourceURL.objects.create(url="https://example.com/zima")
         answer = CrosswordAnswer.objects.create(text="ZIMA", source_url=source_url)
 
-        response = self.client.post(reverse("krizovky:delete", args=[answer.pk]))
+        response = self.client.post(reverse("krizovky:hide", args=[answer.pk]))
 
         self.assertRedirects(response, reverse("krizovky:list"))
         self.assertFalse(CrosswordAnswer.objects.filter(pk=answer.pk).exists())
-        self.assertIsNotNone(CrosswordAnswer.all_objects.get(pk=answer.pk).deleted_at)
+        self.assertIsNotNone(CrosswordAnswer.all_objects.get(pk=answer.pk).hidden_at)
 
     def test_source_url_can_have_multiple_answers(self) -> None:
         source_url = SourceURL.objects.create(url="https://example.com/spolecny-zdroj")
@@ -78,13 +78,31 @@ class CrosswordAnswerCrudTests(TestCase):
         answer.refresh_from_db()
         self.assertIsNone(answer.source_url)
 
-    def test_deleted_answer_is_hidden_from_list(self) -> None:
+    def test_hidden_answer_is_hidden_from_list(self) -> None:
         answer = CrosswordAnswer.objects.create(text="SKRYTA")
-        answer.soft_delete()
+        answer.hide()
 
         response = self.client.get(reverse("krizovky:list"))
 
         self.assertNotContains(response, "SKRYTA")
+
+    def test_hidden_answer_can_be_shown_in_list(self) -> None:
+        answer = CrosswordAnswer.objects.create(text="SKRYTA")
+        answer.hide()
+
+        response = self.client.get(reverse("krizovky:list") + "?show_hidden=1")
+
+        self.assertContains(response, "SKRYTA")
+
+    def test_hidden_answer_can_be_restored(self) -> None:
+        answer = CrosswordAnswer.objects.create(text="OBNOVENA")
+        answer.hide()
+
+        response = self.client.post(reverse("krizovky:restore", args=[answer.pk]))
+
+        self.assertRedirects(response, reverse("krizovky:list") + "?show_hidden=1")
+        answer.refresh_from_db()
+        self.assertIsNone(answer.hidden_at)
 
 
 class SourceURLCrudTests(TestCase):
@@ -115,20 +133,20 @@ class SourceURLCrudTests(TestCase):
         source_url.refresh_from_db()
         self.assertEqual(source_url.url, "https://example.com/novy-zdroj")
 
-    def test_delete_unused_source_url(self) -> None:
+    def test_hide_unused_source_url(self) -> None:
         source_url = SourceURL.objects.create(url="https://example.com/smazat-zdroj")
 
         response = self.client.post(
-            reverse("krizovky:source_url_delete", args=[source_url.pk]),
+            reverse("krizovky:source_url_hide", args=[source_url.pk]),
         )
 
         self.assertRedirects(response, reverse("krizovky:source_url_list"))
         self.assertFalse(SourceURL.objects.filter(pk=source_url.pk).exists())
-        self.assertIsNotNone(SourceURL.all_objects.get(pk=source_url.pk).deleted_at)
+        self.assertIsNotNone(SourceURL.all_objects.get(pk=source_url.pk).hidden_at)
 
-    def test_deleted_source_url_is_hidden_from_picker(self) -> None:
+    def test_hidden_source_url_is_hidden_from_picker(self) -> None:
         source_url = SourceURL.objects.create(url="https://example.com/skryty-zdroj")
-        source_url.soft_delete()
+        source_url.hide()
 
         response = self.client.get(reverse("krizovky:create"))
 
@@ -136,7 +154,7 @@ class SourceURLCrudTests(TestCase):
 
     def test_creating_same_deleted_source_url_restores_it(self) -> None:
         source_url = SourceURL.objects.create(url="https://example.com/obnovit-zdroj")
-        source_url.soft_delete()
+        source_url.hide()
 
         response = self.client.post(
             reverse("krizovky:source_url_create"),
@@ -145,4 +163,22 @@ class SourceURLCrudTests(TestCase):
 
         self.assertRedirects(response, reverse("krizovky:source_url_list"))
         source_url.refresh_from_db()
-        self.assertIsNone(source_url.deleted_at)
+        self.assertIsNone(source_url.hidden_at)
+
+    def test_hidden_source_url_can_be_shown_in_list(self) -> None:
+        source_url = SourceURL.objects.create(url="https://example.com/skryta-url")
+        source_url.hide()
+
+        response = self.client.get(reverse("krizovky:source_url_list") + "?show_hidden=1")
+
+        self.assertContains(response, source_url.url)
+
+    def test_hidden_source_url_can_be_restored(self) -> None:
+        source_url = SourceURL.objects.create(url="https://example.com/obnova-url")
+        source_url.hide()
+
+        response = self.client.post(reverse("krizovky:source_url_restore", args=[source_url.pk]))
+
+        self.assertRedirects(response, reverse("krizovky:source_url_list") + "?show_hidden=1")
+        source_url.refresh_from_db()
+        self.assertIsNone(source_url.hidden_at)

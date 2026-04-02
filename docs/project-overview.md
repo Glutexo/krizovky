@@ -21,7 +21,7 @@ Model `SourceURL` obsahuje:
 - URL zdroje
 - datum vytvoření
 - datum poslední úpravy
-- datum měkkého smazání
+- datum skrytí
 
 Model `CrosswordAnswer` obsahuje:
 
@@ -29,18 +29,19 @@ Model `CrosswordAnswer` obsahuje:
 - volitelný odkaz na `SourceURL`
 - datum vytvoření
 - datum poslední úpravy
-- datum měkkého smazání
+- datum skrytí
 
 ## Uživatelské rozhraní
 
 - seznam tajenek
 - detail tajenky
 - formulář pro vytvoření a úpravu s výběrem existující zdrojové URL
-- potvrzení smazání
+- potvrzení skrytí
 - samostatný seznam zdrojových URL
 - formulář pro vytvoření a úpravu zdrojové URL
-- měkké mazání tajenek i zdrojových URL
-- do budoucna je měkké mazání systémové pravidlo pro všechny agendy
+- skrývání tajenek i zdrojových URL místo fyzického mazání
+- možnost zobrazit i skryté záznamy a znovu je obnovit
+- do budoucna je skrývání systémové pravidlo pro všechny agendy
 
 ## Provozní poznámky
 

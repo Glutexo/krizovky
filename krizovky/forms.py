@@ -15,7 +15,7 @@ class CrosswordAnswerForm(forms.ModelForm):
         queryset = SourceURL.objects.all()
         if self.instance.pk and self.instance.source_url_id:
             queryset = SourceURL.all_objects.filter(
-                Q(pk=self.instance.source_url_id) | Q(deleted_at__isnull=True)
+                Q(pk=self.instance.source_url_id) | Q(hidden_at__isnull=True)
             ).order_by("url")
 
         self.fields["source_url"].queryset = queryset
@@ -31,9 +31,9 @@ class SourceURLForm(forms.ModelForm):
         existing = SourceURL.all_objects.filter(url=url).first()
 
         if existing and existing.pk != self.instance.pk:
-            existing.deleted_at = None
+            existing.hidden_at = None
             if commit:
-                existing.save(update_fields=["deleted_at", "updated_at"])
+                existing.save(update_fields=["hidden_at", "updated_at"])
             return existing
 
         return super().save(commit=commit)
