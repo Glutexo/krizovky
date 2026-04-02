@@ -2,6 +2,12 @@
 
 ## Aktuální funkcionalita
 
+### Obecné chování všech agend
+
+- Jako správce chci, aby se záznamy ve všech agendách fyzicky nemažly, ale pouze skryly, abych o data nepřišel.
+- Jako správce chci mít v každém přehledu možnost zobrazit i skryté záznamy, abych je mohl dohledat.
+- Jako správce chci mít možnost skryté záznamy na požádání znovu odkrýt, abych je mohl vrátit do běžného provozu.
+
 ### Evidence tajenek
 
 - Jako správce tajenek chci vidět seznam všech tajenek, abych se rychle zorientoval v databázi.

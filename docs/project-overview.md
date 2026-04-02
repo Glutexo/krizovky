@@ -40,6 +40,7 @@ Model `CrosswordAnswer` obsahuje:
 - samostatný seznam zdrojových URL
 - formulář pro vytvoření a úpravu zdrojové URL
 - měkké mazání tajenek i zdrojových URL
+- do budoucna je měkké mazání systémové pravidlo pro všechny agendy
 
 ## Provozní poznámky
 
