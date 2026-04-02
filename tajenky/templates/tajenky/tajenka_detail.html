@@ -10,11 +10,7 @@
     </header>
     <p>
         <strong>Zdroj:</strong>
-        {% if tajenka.source_url %}
-            <a href="{{ tajenka.source_url }}">{{ tajenka.source_url }}</a>
-        {% else %}
-            Není uveden.
-        {% endif %}
+        <a href="{{ tajenka.source.url }}">{{ tajenka.source.url }}</a>
     </p>
     <footer>
         <a href="{% url 'tajenky:update' tajenka.pk %}" role="button">Upravit</a>

@@ -16,10 +16,16 @@ Projekt slouží jako jednoduchá webová správa tajenek do křížovek.
 
 ## Datový model
 
+Model `ZdrojovaURL` obsahuje:
+
+- URL zdroje
+- datum vytvoření
+- datum poslední úpravy
+
 Model `Tajenka` obsahuje:
 
 - text tajenky
-- volitelnou zdrojovou URL
+- povinný odkaz na `ZdrojovaURL`
 - datum vytvoření
 - datum poslední úpravy
 

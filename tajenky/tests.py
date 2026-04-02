@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Tajenka
+from .models import Tajenka, ZdrojovaURL
 
 
 class TajenkaCrudTests(TestCase):
@@ -19,10 +19,11 @@ class TajenkaCrudTests(TestCase):
 
         self.assertRedirects(response, reverse("tajenky:list"))
         tajenka = Tajenka.objects.get(text="JARO")
-        self.assertEqual(tajenka.source_url, "https://example.com/jaro")
+        self.assertEqual(tajenka.source.url, "https://example.com/jaro")
 
     def test_update_tajenka(self) -> None:
-        tajenka = Tajenka.objects.create(text="Léto")
+        original_source = ZdrojovaURL.objects.create(url="https://example.com/leto-puvodni")
+        tajenka = Tajenka.objects.create(text="Léto", source=original_source)
 
         response = self.client.post(
             reverse("tajenky:update", args=[tajenka.pk]),
@@ -32,17 +33,31 @@ class TajenkaCrudTests(TestCase):
         self.assertRedirects(response, reverse("tajenky:list"))
         tajenka.refresh_from_db()
         self.assertEqual(tajenka.text, "LÉTO")
-        self.assertEqual(tajenka.source_url, "https://example.com/leto")
+        self.assertEqual(tajenka.source.url, "https://example.com/leto")
 
     def test_delete_tajenka(self) -> None:
-        tajenka = Tajenka.objects.create(text="ZIMA")
+        source = ZdrojovaURL.objects.create(url="https://example.com/zima")
+        tajenka = Tajenka.objects.create(text="ZIMA", source=source)
 
         response = self.client.post(reverse("tajenky:delete", args=[tajenka.pk]))
 
         self.assertRedirects(response, reverse("tajenky:list"))
         self.assertFalse(Tajenka.objects.filter(pk=tajenka.pk).exists())
 
-    def test_source_url_is_optional(self) -> None:
-        tajenka = Tajenka.objects.create(text="PODZIM")
+    def test_source_can_have_multiple_tajenky(self) -> None:
+        source = ZdrojovaURL.objects.create(url="https://example.com/spolecny-zdroj")
+        Tajenka.objects.create(text="PODZIM", source=source)
+        Tajenka.objects.create(text="JARO", source=source)
 
-        self.assertIsNone(tajenka.source_url)
+        self.assertEqual(source.tajenky.count(), 2)
+
+    def test_existing_source_url_is_reused(self) -> None:
+        source = ZdrojovaURL.objects.create(url="https://example.com/opakovany-zdroj")
+
+        response = self.client.post(
+            reverse("tajenky:create"),
+            {"text": "SRPEN", "source_url": source.url},
+        )
+
+        self.assertRedirects(response, reverse("tajenky:list"))
+        self.assertEqual(ZdrojovaURL.objects.filter(url=source.url).count(), 1)

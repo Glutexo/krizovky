@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+from .forms import TajenkaForm
 from .models import Tajenka
 
 
@@ -18,14 +19,14 @@ class TajenkaDetailView(DetailView):
 
 class TajenkaCreateView(CreateView):
     model = Tajenka
-    fields = ["text", "source_url"]
+    form_class = TajenkaForm
     template_name = "tajenky/tajenka_form.html"
     success_url = reverse_lazy("tajenky:list")
 
 
 class TajenkaUpdateView(UpdateView):
     model = Tajenka
-    fields = ["text", "source_url"]
+    form_class = TajenkaForm
     template_name = "tajenky/tajenka_form.html"
     success_url = reverse_lazy("tajenky:list")
 

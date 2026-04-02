@@ -12,8 +12,8 @@
 
 ### Zdroj tajenky
 
-- Jako správce tajenek chci u tajenky uložit zdrojovou URL, abych věděl, odkud pochází.
-- Jako správce tajenek chci mít možnost nechat zdrojovou URL prázdnou, aby šlo uložit i tajenku bez dohledaného zdroje.
+- Jako správce tajenek chci přiřadit tajence jednu zdrojovou URL, abych věděl, odkud pochází.
+- Jako správce tajenek chci používat jednu zdrojovou URL pro více tajenek, abych nemusel stejný zdroj zadávat opakovaně.
 
 ## Připravená infrastruktura
 
