@@ -8,7 +8,7 @@ Projekt slouží jako jednoduchá webová správa tajenek do křížovek.
 
 - Aplikace běží na Django.
 - Databáze je SQLite.
-- Existuje aplikace `tajenky` pro základní CRUD operace.
+- Existuje aplikace `crossword_answers` pro základní CRUD operace.
 - Autentizace ani uživatelské účty se zatím nepoužívají.
 - Administrační rozhraní není vystavené.
 - Vzhled používá jednoduché styly přes Pico CSS z CDN.
@@ -16,16 +16,16 @@ Projekt slouží jako jednoduchá webová správa tajenek do křížovek.
 
 ## Datový model
 
-Model `ZdrojovaURL` obsahuje:
+Model `SourceURL` obsahuje:
 
 - URL zdroje
 - datum vytvoření
 - datum poslední úpravy
 
-Model `Tajenka` obsahuje:
+Model `CrosswordAnswer` obsahuje:
 
 - text tajenky
-- povinný odkaz na `ZdrojovaURL`
+- povinný odkaz na `SourceURL`
 - datum vytvoření
 - datum poslední úpravy
 

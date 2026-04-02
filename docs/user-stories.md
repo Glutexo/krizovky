@@ -15,6 +15,10 @@
 - Jako správce tajenek chci přiřadit tajence jednu zdrojovou URL, abych věděl, odkud pochází.
 - Jako správce tajenek chci používat jednu zdrojovou URL pro více tajenek, abych nemusel stejný zdroj zadávat opakovaně.
 
+### Technické pojmenování
+
+- Jako vývojář chci mít modely, třídy, proměnné a databázové identifikátory anglicky, aby byl kód konzistentní.
+
 ## Připravená infrastruktura
 
 ### OpenAI integrace

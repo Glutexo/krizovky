@@ -7,7 +7,7 @@
     <h1>Tajenky</h1>
 </header>
 
-{% if tajenky %}
+{% if answers %}
 <table>
     <thead>
     <tr>
@@ -16,13 +16,13 @@
     </tr>
     </thead>
     <tbody>
-    {% for tajenka in tajenky %}
+    {% for answer in answers %}
     <tr>
-        <td><a href="{% url 'tajenky:detail' tajenka.pk %}">{{ tajenka.text }}</a></td>
+        <td><a href="{% url 'crossword_answers:detail' answer.pk %}">{{ answer.text }}</a></td>
         <td>
-            <a href="{% url 'tajenky:update' tajenka.pk %}">Upravit</a>
+            <a href="{% url 'crossword_answers:update' answer.pk %}">Upravit</a>
             |
-            <a href="{% url 'tajenky:delete' tajenka.pk %}">Smazat</a>
+            <a href="{% url 'crossword_answers:delete' answer.pk %}">Smazat</a>
         </td>
     </tr>
     {% endfor %}
@@ -32,7 +32,7 @@
 <article>
     <h2>Zatím bez tajenek</h2>
     <p>První záznam můžeš přidat hned teď.</p>
-    <a href="{% url 'tajenky:create' %}" role="button">Přidat tajenku</a>
+    <a href="{% url 'crossword_answers:create' %}" role="button">Přidat tajenku</a>
 </article>
 {% endif %}
 {% endblock %}

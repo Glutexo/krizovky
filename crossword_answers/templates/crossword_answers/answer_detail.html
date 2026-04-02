@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ answer.text }}{% endblock %}
+
+{% block content %}
+<article>
+    <header>
+        <h1>{{ answer.text }}</h1>
+        <p>Detail tajenky.</p>
+    </header>
+    <p>
+        <strong>Zdroj:</strong>
+        <a href="{{ answer.source_url.url }}">{{ answer.source_url.url }}</a>
+    </p>
+    <footer>
+        <a href="{% url 'crossword_answers:update' answer.pk %}" role="button">Upravit</a>
+        <a href="{% url 'crossword_answers:delete' answer.pk %}" class="secondary">Smazat</a>
+        <a href="{% url 'crossword_answers:list' %}" class="secondary">Zpět na seznam</a>
+    </footer>
+</article>
+{% endblock %}

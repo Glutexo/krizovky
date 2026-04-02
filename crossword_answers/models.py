@@ -1,12 +1,13 @@
 from django.db import models
 
 
-class ZdrojovaURL(models.Model):
+class SourceURL(models.Model):
     url = models.URLField("Zdrojová URL", unique=True)
     created_at = models.DateTimeField("Vytvořeno", auto_now_add=True)
     updated_at = models.DateTimeField("Upraveno", auto_now=True)
 
     class Meta:
+        db_table = "crossword_answers_source_url"
         ordering = ["url"]
         verbose_name = "zdrojová URL"
         verbose_name_plural = "zdrojové URL"
@@ -15,18 +16,19 @@ class ZdrojovaURL(models.Model):
         return self.url
 
 
-class Tajenka(models.Model):
+class CrosswordAnswer(models.Model):
     text = models.CharField("Tajenka", max_length=255)
-    source = models.ForeignKey(
-        ZdrojovaURL,
+    source_url = models.ForeignKey(
+        SourceURL,
         on_delete=models.PROTECT,
-        related_name="tajenky",
+        related_name="answers",
         verbose_name="Zdrojová URL",
     )
     created_at = models.DateTimeField("Vytvořeno", auto_now_add=True)
     updated_at = models.DateTimeField("Upraveno", auto_now=True)
 
     class Meta:
+        db_table = "crossword_answers_crossword_answer"
         ordering = ["text"]
         verbose_name = "tajenka"
         verbose_name_plural = "tajenky"

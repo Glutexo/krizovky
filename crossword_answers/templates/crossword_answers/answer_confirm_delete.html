@@ -4,11 +4,11 @@
 
 {% block content %}
 <h1>Smazat tajenku</h1>
-<p>Opravdu chceš smazat tajenku <strong>{{ tajenka.text }}</strong>?</p>
+<p>Opravdu chceš smazat tajenku <strong>{{ answer.text }}</strong>?</p>
 
 <form method="post">
     {% csrf_token %}
     <button type="submit">Ano, smazat</button>
-    <a href="{% url 'tajenky:detail' tajenka.pk %}" class="secondary">Zpět</a>
+    <a href="{% url 'crossword_answers:detail' answer.pk %}" class="secondary">Zpět</a>
 </form>
 {% endblock %}

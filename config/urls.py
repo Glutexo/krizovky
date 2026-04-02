@@ -17,5 +17,5 @@ Including another URLconf
 from django.urls import include, path
 
 urlpatterns = [
-    path('', include('tajenky.urls')),
+    path('', include('crossword_answers.urls')),
 ]

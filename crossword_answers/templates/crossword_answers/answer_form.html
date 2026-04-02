@@ -9,6 +9,6 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Uložit</button>
-    <a href="{% url 'tajenky:list' %}" class="secondary">Zrušit</a>
+    <a href="{% url 'crossword_answers:list' %}" class="secondary">Zrušit</a>
 </form>
 {% endblock %}

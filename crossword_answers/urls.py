@@ -1,0 +1,19 @@
+from django.urls import path
+
+from .views import (
+    CrosswordAnswerCreateView,
+    CrosswordAnswerDeleteView,
+    CrosswordAnswerDetailView,
+    CrosswordAnswerListView,
+    CrosswordAnswerUpdateView,
+)
+
+app_name = "crossword_answers"
+
+urlpatterns = [
+    path("", CrosswordAnswerListView.as_view(), name="list"),
+    path("nova/", CrosswordAnswerCreateView.as_view(), name="create"),
+    path("<int:pk>/", CrosswordAnswerDetailView.as_view(), name="detail"),
+    path("<int:pk>/upravit/", CrosswordAnswerUpdateView.as_view(), name="update"),
+    path("<int:pk>/smazat/", CrosswordAnswerDeleteView.as_view(), name="delete"),
+]
