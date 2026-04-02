@@ -22,6 +22,7 @@
 - Ve výchozím stavu používat ASCII, pokud soubor už sám nevyžaduje Unicode.
 - Všechny české řetězce v aplikaci, dokumentaci i šablonách psát s diakritikou.
 - Názvy modelů, tříd, proměnných, tabulek, sloupců a podobných technických identifikátorů psát anglicky.
+- Před spuštěním každé migrace udělat zálohu dat; až pokud migrace i následné ověření projdou, zálohu smazat.
 
 ## Bezpečnost Gitu
 - Bez výslovného požadavku nikdy nepřepisovat ani nemažat uživatelské změny.
