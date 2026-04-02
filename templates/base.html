@@ -9,6 +9,17 @@
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
     >
     <style>
+        .inline-actions {
+            align-items: baseline;
+            display: inline-flex;
+            gap: 0.5rem;
+        }
+
+        .inline-action-form {
+            display: inline;
+            margin: 0;
+        }
+
         .link-button {
             background: none;
             border: 0;
@@ -16,9 +27,11 @@
             cursor: pointer;
             display: inline;
             font: inherit;
+            line-height: inherit;
             margin: 0;
             padding: 0;
             text-decoration: underline;
+            vertical-align: baseline;
         }
     </style>
 </head>
