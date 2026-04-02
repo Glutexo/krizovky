@@ -15,6 +15,8 @@
 - Jako správce tajenek chci přiřadit tajence jednu zdrojovou URL, abych věděl, odkud pochází.
 - Jako správce tajenek chci používat jednu zdrojovou URL pro více tajenek, abych nemusel stejný zdroj zadávat opakovaně.
 - Jako správce tajenek chci mít možnost uložit tajenku i bez zdrojové URL, pokud zdroj neznám.
+- Jako správce tajenek chci spravovat seznam zdrojových URL samostatně, abych je mohl připravit předem a znovu používat.
+- Jako správce tajenek chci při editaci tajenky vybírat zdrojovou URL ze seznamu, abych se vyhnul překlepům.
 
 ### Technické pojmenování
 

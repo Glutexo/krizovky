@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{% if object %}Upravit URL{% else %}Nová URL{% endif %}{% endblock %}
+
+{% block content %}
+<h1>{% if object %}Upravit URL{% else %}Nová URL{% endif %}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Uložit</button>
+    <a href="{% url 'crossword_answers:source_url_list' %}" class="secondary">Zrušit</a>
+</form>
+{% endblock %}

@@ -33,8 +33,10 @@ Model `CrosswordAnswer` obsahuje:
 
 - seznam tajenek
 - detail tajenky
-- formulář pro vytvoření a úpravu
+- formulář pro vytvoření a úpravu s výběrem existující zdrojové URL
 - potvrzení smazání
+- samostatný seznam zdrojových URL
+- formulář pro vytvoření a úpravu zdrojové URL
 
 ## Provozní poznámky
 
