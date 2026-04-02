@@ -29,6 +29,7 @@
 - Commitovat co nejmenší logické změny.
 - Pokud se v projektu udělalo více změn, rozdělit je do samostatných commitů podle tématu.
 - Spouštět vždy jen jeden gitový proces naráz.
+- Po každé dokončené provedené změně udělat commit a push.
 - Pro práci s GitHubem je k dispozici příkaz `gh`.
 - Remote `origin` patří veřejnému repozitáři `Glutexo/krizovky`.
 - URL repozitáře je `https://github.com/Glutexo/krizovky`.
