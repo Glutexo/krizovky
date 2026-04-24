@@ -18,6 +18,7 @@
 - Jako správce tajenek chci skrýt tajenku, abych ji vyřadil z běžného přehledu bez ztráty dat.
 - Jako správce tajenek chci mít možnost zobrazit i skryté tajenky a případně je obnovit.
 - Jako správce tajenek chci, aby se při AI importu už existující tajenky pro stejný zdroj znovu nevytvářely, abych si databázi nezanášel duplicitami.
+- Jako správce tajenek chci při selhání OpenAI API během AI importu vidět srozumitelnou chybu ve formuláři místo pádu aplikace, abych věděl, co mám udělat dál.
 
 ### Zdroj tajenky
 

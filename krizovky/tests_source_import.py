@@ -1,9 +1,16 @@
 from unittest.mock import Mock, patch
 
+from httpx import Request, Response
 from django.test import SimpleTestCase, TestCase, override_settings
+from openai import RateLimitError
 
 from .models import CrosswordAnswer, SourceURL
-from .source_import import extract_answers_from_source, import_answers_from_source_url, parse_answers_payload
+from .source_import import (
+    SourceImportError,
+    extract_answers_from_source,
+    import_answers_from_source_url,
+    parse_answers_payload,
+)
 
 
 class SourceImportParsingTests(SimpleTestCase):
@@ -28,6 +35,30 @@ class SourceImportParsingTests(SimpleTestCase):
         answers = extract_answers_from_source("https://example.com/praha")
 
         self.assertEqual(answers, ["PRAHA", "KARLŮV MOST"])
+        fetch_text_mock.assert_called_once_with("https://example.com/praha")
+        client.responses.create.assert_called_once()
+
+    @override_settings(OPENAI_API_KEY="sk-test-12345678901234567890", OPENAI_MODEL="gpt-4.1-mini")
+    @patch("krizovky.source_import.fetch_source_text", return_value="Praha je hlavní město.")
+    @patch("krizovky.source_import.get_openai_client")
+    def test_extract_answers_from_source_handles_insufficient_quota(self, get_client_mock, fetch_text_mock) -> None:
+        client = Mock()
+        client.responses.create.side_effect = RateLimitError(
+            "Quota exceeded",
+            response=Response(
+                429,
+                request=Request("POST", "https://api.openai.com/v1/responses"),
+            ),
+            body={"code": "insufficient_quota"},
+        )
+        get_client_mock.return_value = client
+
+        with self.assertRaisesMessage(
+            SourceImportError,
+            "AI import teď není dostupný, protože OpenAI účet nemá dostatečnou kvótu.",
+        ):
+            extract_answers_from_source("https://example.com/praha")
+
         fetch_text_mock.assert_called_once_with("https://example.com/praha")
         client.responses.create.assert_called_once()
 

@@ -6,6 +6,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from django.conf import settings
+from openai import APIConnectionError, APIStatusError, APITimeoutError, RateLimitError
 
 from .models import CrosswordAnswer, SourceURL
 from .openai_client import OpenAIConfigurationError, get_openai_client
@@ -21,6 +22,28 @@ class ImportResult:
     created_count: int
     restored_count: int
     skipped_count: int
+
+
+def build_openai_api_error_message(exc: Exception) -> str:
+    if isinstance(exc, RateLimitError):
+        error_body = exc.body if isinstance(exc.body, dict) else {}
+        error_code = error_body.get("code")
+
+        if error_code == "insufficient_quota":
+            return "AI import teď není dostupný, protože OpenAI účet nemá dostatečnou kvótu."
+
+        return "AI import je dočasně omezený kvůli limitu OpenAI API. Zkus to prosím znovu později."
+
+    if isinstance(exc, APITimeoutError):
+        return "OpenAI API neodpovědělo včas. Zkus to prosím znovu."
+
+    if isinstance(exc, APIConnectionError):
+        return "Nepodařilo se spojit s OpenAI API. Zkontroluj připojení a zkus to znovu."
+
+    if isinstance(exc, APIStatusError):
+        return f"OpenAI API vrátilo chybu {exc.status_code}. Zkus to prosím znovu později."
+
+    return "AI import se nepodařilo dokončit kvůli chybě OpenAI API."
 
 
 class HTMLTextExtractor(HTMLParser):
@@ -121,27 +144,30 @@ def extract_answers_from_source(url: str) -> list[str]:
     except OpenAIConfigurationError as exc:
         raise SourceImportError(str(exc)) from exc
 
-    response = client.responses.create(
-        model=settings.OPENAI_MODEL,
-        input=[
-            {
-                "role": "system",
-                "content": (
-                    "Z poskytnutého textu vybírej krátké, srozumitelné a samostatně použitelné tajenky do křížovek. "
-                    "Vrať pouze JSON pole řetězců bez dalšího komentáře. "
-                    "Používej velká písmena, maximálně 3 slova na položku a nevracej celé věty."
-                ),
-            },
-            {
-                "role": "user",
-                "content": (
-                    f"Zdrojová URL: {url}\n"
-                    "Vyber z následujícího textu vhodné tajenky do křížovek:\n\n"
-                    f"{source_text}"
-                ),
-            },
-        ],
-    )
+    try:
+        response = client.responses.create(
+            model=settings.OPENAI_MODEL,
+            input=[
+                {
+                    "role": "system",
+                    "content": (
+                        "Z poskytnutého textu vybírej krátké, srozumitelné a samostatně použitelné tajenky do křížovek. "
+                        "Vrať pouze JSON pole řetězců bez dalšího komentáře. "
+                        "Používej velká písmena, maximálně 3 slova na položku a nevracej celé věty."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"Zdrojová URL: {url}\n"
+                        "Vyber z následujícího textu vhodné tajenky do křížovek:\n\n"
+                        f"{source_text}"
+                    ),
+                },
+            ],
+        )
+    except (APIConnectionError, APIStatusError, APITimeoutError, RateLimitError) as exc:
+        raise SourceImportError(build_openai_api_error_message(exc)) from exc
 
     return parse_answers_payload(response.output_text)
 

@@ -54,6 +54,7 @@ Model `CrosswordAnswer` obsahuje:
 - Aplikace při Django checku upozorní na chybějící nebo podezřele zadaný OpenAI klíč.
 - Při AI importu aplikace stáhne HTML stránky, vytáhne z něj čitelný text a ten pošle OpenAI k návrhu tajenek.
 - Import automaticky znovu použije existující zdrojovou URL, obnoví dříve skryté záznamy a nepřidá viditelné duplicity stejné tajenky pro stejný zdroj.
+- Chyby OpenAI API při AI importu, včetně vyčerpané kvóty nebo timeoutu, se zachytí a zobrazí ve formuláři bez pádu stránky.
 
 ## Dokumentace
 
